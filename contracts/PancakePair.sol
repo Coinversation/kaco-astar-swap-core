@@ -68,16 +68,16 @@ contract PancakePair is IPancakePair, PancakeERC20 {
         token0 = _token0;
         token1 = _token1;
         
-        bytes memory symbol0 = bytes(IERC20(_token0).symbol());
-        bytes memory symbol1 = bytes(IERC20(_token1).symbol());
-        setName(string(bytes.concat(symbol0, bytes('-'), symbol1, bytes(' kacoLP'))));
-
-        bytes memory _begin0 = bytes(symbol0)[0];
-        bytes memory _begin1 = bytes(symbol1)[0];
-        if(uint(_begin0) < 128 && uint(_begin1) < 128){
-            setSymbol(string(bytes.concat(bytes('kLP-'), _begin0, _begin1)));
+        string memory symbol0 = IERC20(_token0).symbol();
+        string memory symbol1 = IERC20(_token1).symbol();
+        setName(string(abi.encodePacked(symbol0, '-', symbol1, ' kacoLP')));
+        
+        bytes1 _begin0 = bytes(symbol0)[0];
+        bytes1 _begin1 = bytes(symbol1)[0];
+        if(uint8(_begin0) < 128 && uint8(_begin1) < 128){
+            setSymbol(string(abi.encodePacked('kLP-', _begin0, _begin1)));
         }else{
-            setSymbol(string(bytes.concat(bytes('kLP-'), symbol0, symbol1)));
+            setSymbol(string(abi.encodePacked('kLP-', symbol0, symbol1)));
         }
     }
 
